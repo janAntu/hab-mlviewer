@@ -11,7 +11,7 @@ var readJson = (path, cb) => {
   }
   
 var readCsv = (path, cb) => {
-  fs.readFile(require.resolve(path), (err, data) => {
+  fs.readFile(require.resolve(path), 'utf8', (err, data) => {
     if (err)
       console.log(err)
     else
