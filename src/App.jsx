@@ -16,7 +16,8 @@ import axios from 'axios';
 const App = () => {
 
   // define image state
-  const [imgs, setImages] = useState([]);
+  const [testImgs, setTestImages] = useState([]);
+  const [trainImgs, setTestImage] = useState([]);
   const [imagePath, setImagePath] = useState('');
   const [label, setLabel] = useState('');
 
@@ -30,13 +31,15 @@ const App = () => {
       label;
 
     // get all images from that query, and time
+    console.log("Submitted query");
     axios
-      .get(`http://localhost:3002/api/imgs/${QueryStr}`)
+      .get(`http://localhost:3002/api/train-data/`)
       .then(res => {
         if(res.data.data === []){
           alert("No images received! \n Check the querys entered");
         }
-        setImages(res.data.data);
+        setTestImage(res.data.data);
+        console.log("Fetched data: " + res.data.data)
       })
       .catch(err => {
         alert(`Error Occured: ${err}`);
@@ -55,8 +58,8 @@ const App = () => {
   }
 
   // rerender the view
-  const reRender = (imgs) => {
-    setImages(imgs);    
+  const reRender = (trainImgs) => {
+    setTestImage(trainImgs);    
   }
 
   return (
@@ -67,7 +70,7 @@ const App = () => {
       <hr />
 
       <Mosaic 
-        images={imgs} 
+        images={trainImgs} 
         currClass="All"
         reRender={reRender}
         />

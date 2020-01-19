@@ -8,7 +8,7 @@ const Query = (props) => {
 
     return(
         <div className="Query">
-            <form onSubmit={props.handleDateSubmit}>
+            <form onSubmit={props.handleQuerySubmit}>
                 <label>
                     Images:
                     <input type="string" name="image-path" onChange={props.onQueryChange}/>
