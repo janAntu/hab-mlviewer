@@ -43,7 +43,7 @@ const closeDB = (db) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-let port = 3002;
+let port = 3007;
 
 // middleware for allowing CORS
 app.use(cors());

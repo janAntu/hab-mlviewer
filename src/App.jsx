@@ -33,7 +33,7 @@ const App = () => {
     // get all images from that query, and time
     console.log("Submitted query");
     axios
-      .get(`http://localhost:3002/api/train-data/`)
+      .get(`http://localhost:3007/api/train-data/`)
       .then(res => {
         if(res.data.data === []){
           alert("No images received! \n Check the querys entered");
