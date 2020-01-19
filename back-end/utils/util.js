@@ -1,4 +1,5 @@
 const fs = require('fs');
+const papa = require('papaparse');
 
 var readJson = (path, cb) => {
     fs.readFile(require.resolve(path), (err, data) => {
@@ -8,6 +9,15 @@ var readJson = (path, cb) => {
         cb(JSON.parse(data))
     });
   }
+  
+var readCsv = (path, cb) => {
+  fs.readFile(require.resolve(path), (err, data) => {
+    if (err)
+      console.log(err)
+    else
+      cb(papa.parse(data))
+  });
+}
   
 var writeJson = (path, jsonContent, cb) => {  
     fs.writeFile(require.resolve(path), jsonContent, 'utf8', function (err) {
@@ -20,4 +30,4 @@ var writeJson = (path, jsonContent, cb) => {
     });
   }
 
-module.exports = {readJsonFile: readJson, writeToJsonFile: writeJson};
+module.exports = {readJsonFile: readJson, writeToJsonFile: writeJson, readCsvFile: readCsv};

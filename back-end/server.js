@@ -10,6 +10,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const utils = require('./utils/util.js');
 
+// import yargs to parse command lines arguments
+const argv = require('yargs').argv
+const trainPath = argv.train ? argv.train : null;
+const testPath = argv.test ? argv.test : null;
+
 // path constants
 const dbPath = "./test.db";
 const classListPath = "../data_models/annotClasses.json";
@@ -129,6 +134,43 @@ app.post('/api/annot-list/:newClass', (req, res) => {
     });
 });
 
+// get training data from CSV
+app.get('/api/train-data/', (req, res) => {
+    console.log("train-data api called");
+    if (trainPath) {
+        // read csv for training dataset info
+        utils.readCsvFile(trainPath, (data) => {
+            res.json(data);
+            console.log(data);
+        });
+    } else {
+        console.log("Error: No training data file specified");
+    }
+});
+
+// get training data from CSV
+app.get('/api/test-data/', (req, res) => {
+    if (testPath) {
+        // read csv for training dataset info
+        utils.readCsvFile(testPath, (data) => {
+            res.json(data);
+            console.log(data);
+        });
+    } else {
+        console.log("Error: No testing data file specified");
+    }
+});
+
+// If file locations for training or testing datasets are
+// specified, parse the CSV files.
+if (argv.train || argv.test) {
+    if (argv.train) {
+        console.log("Training data CSV: " + argv.train);
+    }
+    if (argv.test) {
+        console.log("Testing data CSV: " + argv.test);
+    }
+}
 
 // Start the server
 app.listen(port);
