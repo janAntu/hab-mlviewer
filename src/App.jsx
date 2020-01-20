@@ -18,44 +18,36 @@ const App = () => {
   // define image state
   const [testImgs, setTestImages] = useState([]);
   const [trainImgs, setTrainImages] = useState([]);
-  const [currClass, setCurrClass] = useState('All');
+  const [currClass, setCurrClass] = useState('Hab');
   const [currAnnotClass, setCurrAnnotClass] = useState('');
   const [classList, setClassList] = useState([]);
 
   useEffect(() => {
-    const promise1 = axios
-      .get(`http://localhost:3007/api/train-data/`)
-      .then(res => {
-        if(res.data.data === []){
+    Promise.all([
+      axios.get(`http://localhost:3007/api/train-data/`),
+      axios.get(`http://localhost:3007/api/test-data/`)])
+      .then(([trainRes, testRes]) => {
+        console.log("trainRes: " + trainRes.data.data)
+        if(trainRes.data.data === [] || testRes.data.data === []){
           alert("No images received! \n Check the querys entered");
         }
-        setTrainImages(res.data.data);
-      })
-      .catch(err => {
-        alert(`Error Occured: ${err}`);
-      });
-      const promise2 = axios
-      .get(`http://localhost:3007/api/test-data/`)
-      .then(res => {
-        if(res.data.data === []){
-          alert("No images received! \n Check the querys entered");
-        }
-        setTestImages(res.data.data);
-      })
-      .catch(err => {
-        alert(`Error Occured: ${err}`);
-      });
+        setTrainImages(trainRes.data.data);
+        setTestImages(testRes.data.data);
 
-      Promise.all([promise1, promise2]).then((arr1, arr2) => {
-        console.log("Preparing to merge arrays" + testImgs);
-        setClassList(mergeArrays(testImgs, trainImgs));
+        console.log("Preparing to merge arrays");
+        setClassList(mergeArrays(trainRes.data.data, testRes.data.data));
+        setCurrClass('All');
         console.log(classList);
-    });
+      })
+      .catch(err => {
+        alert(`Error Occured: ${err}`);
+      });
   }, []);
 
   // Merge two arrays into one, discarding duplicates
   const mergeArrays = (arr1, arr2) => {
-    return ['All', ...new Set(arr1.concat(arr2).map(img => img.label))];
+    return ['All', ...new Set(arr1.concat(arr2).map(img => img.label))]
+      .filter((x) => x != null);
   }
 
   // get images from server on query
@@ -63,19 +55,21 @@ const App = () => {
     
     e.preventDefault();
 
-    // get all images from csv files
-    console.log("Submitted query");
+    // Rerender images
+    reRender(trainImgs, testImgs);
 
   }
 
   // update current class
   const onClassChange = (e) => {
     let selectedClass = e.target.value;
+    console.log("New class selected: " + selectedClass);
     setCurrClass(selectedClass);
   }
 
   // rerender the view
   const reRender = (trainImgs, testImgs) => {
+    setCurrClass(currClass);
     setTrainImages(trainImgs);    
     setTestImages(testImgs);    
   }
@@ -93,13 +87,13 @@ const App = () => {
         <Mosaic 
           title="Training:"
           images={trainImgs} 
-          currClass="All"
+          currClass={currClass}
           reRender={reRender}
         />
         <Mosaic 
           title="Testing:"
           images={testImgs} 
-          currClass="All"
+          currClass={currClass}
           reRender={reRender}
         />
       </div>
