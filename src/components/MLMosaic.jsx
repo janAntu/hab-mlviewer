@@ -28,9 +28,8 @@ const Mosaic = (props) => {
         // filter images by current class
         if (props.currClass !== "All") {
             updateImgs(props.images.filter((img) => {
-                if (img.ml_user_labels != null && img.ml_user_labels === props.currClass) return true;
-                else if (img.ml_user_labels == null && img.ml_prediction === props.currClass) return true;
-                else return true;
+                if (img.label != null && img.label === props.currClass) return true;
+                else return false;
             }));
         } else {
             updateImgs(props.images);
