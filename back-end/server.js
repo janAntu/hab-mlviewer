@@ -10,6 +10,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const utils = require('./utils/util.js');
 
+var fs = require('fs');
+var util = require('util');
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+
+const log = function(d) { //
+  log_file.write(util.format(d) + '\n');
+  log_stdout.write(util.format(d) + '\n');
+};
+
 // import yargs to parse command lines arguments
 const argv = require('yargs').argv
 const trainPath = argv.train ? argv.train : null;
@@ -43,7 +53,7 @@ const closeDB = (db) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-let port = 3007;
+let port = 3005;
 
 // middleware for allowing CORS
 app.use(cors());
@@ -141,10 +151,10 @@ app.get('/api/train-data/', (req, res) => {
         // read csv for training dataset info
         utils.readCsvFile(trainPath, (data) => {
             res.json(data);
-            console.log(data);
+            log(data);
         });
     } else {
-        console.log("Error: No training data file specified");
+        log("Error: No training data file specified");
     }
 });
 
@@ -154,10 +164,10 @@ app.get('/api/test-data/', (req, res) => {
         // read csv for training dataset info
         utils.readCsvFile(testPath, (data) => {
             res.json(data);
-            console.log(data);
+            log(data);
         });
     } else {
-        console.log("Error: No testing data file specified");
+        log("Error: No testing data file specified");
     }
 });
 
@@ -166,6 +176,7 @@ app.get('/api/test-data/', (req, res) => {
 if (argv.train || argv.test) {
     if (argv.train) {
         console.log("Training data CSV: " + argv.train);
+	log("Training data CSV: " + argv.train);
     }
     if (argv.test) {
         console.log("Testing data CSV: " + argv.test);

@@ -24,8 +24,8 @@ const App = () => {
 
   useEffect(() => {
     Promise.all([
-      axios.get(`http://localhost:3007/api/train-data/`),
-      axios.get(`http://localhost:3007/api/test-data/`)])
+      axios.get(`http://gpu2:3005/api/train-data/`),
+      axios.get(`http://gpu2:3005/api/test-data/`)])
       .then(([trainRes, testRes]) => {
         console.log("trainRes: " + trainRes.data.data)
         if(trainRes.data.data === [] || testRes.data.data === []){
