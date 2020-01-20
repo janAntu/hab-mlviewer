@@ -8,15 +8,13 @@ const Query = (props) => {
 
     return(
         <div className="Query">
-            <form onSubmit={props.handleQuerySubmit}>
-                <label>
-                    Images:
-                    <input type="string" name="image-path" onChange={props.onQueryChange}/>
-                </label>
-                <label>
-                    Label:
-                    <input type="string" name="label" onChange={props.onQueryChange}/>
-                </label>
+            <form onSubmit={props.handleSubmit}>
+            <label>
+                Filter by Class:
+                <select value={props.currClass} onChange={props.onClassChange}>
+                    {props.classList.map(classStr => <option key={classStr} value={classStr}>{classStr}</option>)}
+                </select>
+            </label>
                 <input type="submit" value="Submit" />
             </form>
         </div>

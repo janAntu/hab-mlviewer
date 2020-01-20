@@ -1,12 +1,20 @@
+html {
+  height: 100%;
+}
+
 body {
   background-color: #282c34;
   color: #ffffff;
+  height: 100%;
 }
 
 /* app level rules */
 .App {
   height: 100%;
   width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
 
 input {
@@ -22,7 +30,8 @@ hr {
   position: relative;
   top: 0;
   width: 100%;
-  text-align: center;
+  padding: 0px 5px;
+  text-align: left;
 }
 
 .Query label {
@@ -30,53 +39,10 @@ hr {
   margin: 5px;
 }
 
-.Query input {
-  margin: 20px 5px;
+.Query select {
+  width: 150px;
+  margin: 20px 10px;
   padding: 5px;
-}
-
-/* filter rules */
-.Filter {
-  position:relative;
-  top: 0;
-  width: 100%;
-  text-align: center;
-}
-
-.Filter select {
-  padding:  5px;
-  margin: 10px 5px;
-  border-radius: 10px;
-}
-
-.Filter label {
-  padding: 5px;
-  margin: 5px;
-}
-
-/* annotate rules */
-.Annotate {
-  position:relative;
-  top: 0;
-  width: 100%;
-  text-align: left;
-  height: 50px;
-}
-
-.Annotate select {
-  padding: 5px;
-  margin: 10px 5px;
-  border-radius: 10px;
-}
-
-.Annotate label {
-  padding: 5px;
-  margin: 5px;
-}
-
-.Annotate input {
-  padding: 5px;
-  margin: 5px;
 }
 
 /* toolbar rules */
@@ -86,11 +52,25 @@ hr {
   padding: 10px 0px;
 }
 
+.Splitscreen {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
 /* Mosaic rules */
 .Mosaic {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
+  grid-row-gap: 20px;
   background-color: #282c38;
+}
+
+.Mosaic label {
+  width: 100%;
+  height: 20px;
+  padding: 5px 15px;
+  font-weight: 600;
 }
 
 .Mosaic form {
@@ -108,30 +88,20 @@ hr {
   padding: 10px;
 }
 
+.Mosaic:first-child {
+  float: left;
+  width: 50%;
+  border-right: 2px solid gray;
+}
+
 /* Image rules */
 .Image {
-  display: inline;
+  display: contents;
+  height: auto;
   margin: 20px;
   border: 2px solid gray;
 }
 
 .red-border {
   border: 3px solid red;
-}
-
-.Annotated {
-  border: 3px solid yellow;
-}
-
-/* Option Tab rules */
-
-
-/* Add class rules */
-.AddClass input {
-  margin: 10px 5px;
-  padding: 5px;
-}
-
-.AddClass label {
-  margin: 30px 20px;
 }

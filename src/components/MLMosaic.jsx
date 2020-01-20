@@ -25,7 +25,7 @@ const Mosaic = (props) => {
     }
 
     // filter images by current class
-    let imgsToRender = []
+    let imgsToRender = [];
     if (props.currClass !== "All") {
         imgsToRender = props.images.filter((img) => {
             if (img.ml_user_labels != null && img.ml_user_labels === props.currClass) return true;
@@ -39,7 +39,8 @@ const Mosaic = (props) => {
     // console.log("imgsToRender: " + props.images);
 
     return(
-        <div className="Mosaic">            
+        <div className="Mosaic">
+            <label>{props.title}</label>        
             { imgsToRender.map((img) => {
                     return <Image key={img.image_id} image={img} 
                             onClick={selectImage}/>

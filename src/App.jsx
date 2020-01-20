@@ -17,63 +17,92 @@ const App = () => {
 
   // define image state
   const [testImgs, setTestImages] = useState([]);
-  const [trainImgs, setTestImage] = useState([]);
-  const [imagePath, setImagePath] = useState('');
-  const [label, setLabel] = useState('');
+  const [trainImgs, setTrainImages] = useState([]);
+  const [currClass, setCurrClass] = useState('All');
+  const [currAnnotClass, setCurrAnnotClass] = useState('');
+  const [classList, setClassList] = useState([]);
 
-  // get images from server on query
-  const handleQuerySubmit = (e) => {
-    
-    e.preventDefault();
-    // get query and time range
-    const QueryStr = 
-      imagePath + " " +
-      label;
-
-    // get all images from that query, and time
-    console.log("Submitted query");
-    axios
+  useEffect(() => {
+    const promise1 = axios
       .get(`http://localhost:3007/api/train-data/`)
       .then(res => {
         if(res.data.data === []){
           alert("No images received! \n Check the querys entered");
         }
-        setTestImage(res.data.data);
-        console.log("Fetched data: " + res.data.data)
+        setTrainImages(res.data.data);
       })
       .catch(err => {
         alert(`Error Occured: ${err}`);
       });
+      const promise2 = axios
+      .get(`http://localhost:3007/api/test-data/`)
+      .then(res => {
+        if(res.data.data === []){
+          alert("No images received! \n Check the querys entered");
+        }
+        setTestImages(res.data.data);
+      })
+      .catch(err => {
+        alert(`Error Occured: ${err}`);
+      });
+
+      Promise.all([promise1, promise2]).then((arr1, arr2) => {
+        console.log("Preparing to merge arrays" + testImgs);
+        setClassList(mergeArrays(testImgs, trainImgs));
+        console.log(classList);
+    });
+  }, []);
+
+  // Merge two arrays into one, discarding duplicates
+  const mergeArrays = (arr1, arr2) => {
+    return ['All', ...new Set(arr1.concat(arr2).map(img => img.label))];
   }
 
-  // upquery query
-  const onQueryChange = (e) => {
-    let queryStr = e.target.value;
+  // get images from server on query
+  const handleSubmit = (e) => {
     
-    if(e.target.name === "query-start"){    
-      setImagePath(queryStr);
-    } else {
-      setLabel(queryStr);
-    }
+    e.preventDefault();
+
+    // get all images from csv files
+    console.log("Submitted query");
+
+  }
+
+  // update current class
+  const onClassChange = (e) => {
+    let selectedClass = e.target.value;
+    setCurrClass(selectedClass);
   }
 
   // rerender the view
-  const reRender = (trainImgs) => {
-    setTestImage(trainImgs);    
+  const reRender = (trainImgs, testImgs) => {
+    setTrainImages(trainImgs);    
+    setTestImages(testImgs);    
   }
 
   return (
     <div className="App">
       <Query 
-          onQueryChange={onQueryChange} 
-          handleQuerySubmit={handleQuerySubmit} />
+          classList={classList}
+          onClassChange={onClassChange} 
+          currClass={currClass}
+          handleSubmit={handleSubmit} />
       <hr />
 
-      <Mosaic 
-        images={trainImgs} 
-        currClass="All"
-        reRender={reRender}
+      <div className="Splitscreen">
+        <Mosaic 
+          title="Training:"
+          images={trainImgs} 
+          currClass="All"
+          reRender={reRender}
         />
+        <Mosaic 
+          title="Testing:"
+          images={testImgs} 
+          currClass="All"
+          reRender={reRender}
+        />
+      </div>
     </div>
   );
 }
