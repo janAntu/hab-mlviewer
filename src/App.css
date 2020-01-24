@@ -110,14 +110,6 @@ hr {
   justify-self: center;
 }
 
-.Image {
-  display: contents;
-  max-width: 120px;
-  height: auto;
-  margin: 20px;
-  border: 2px solid gray;
-}
-
 .red-border {
   border: 3px solid red;
 }

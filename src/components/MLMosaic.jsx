@@ -24,15 +24,30 @@ const Mosaic = (props) => {
     }
 
     useEffect(() => {
+	const trainLabels = new Set([
+	"Akashiwo",
+	"Ceratium falcatiforme",
+	"Ceratium furca",
+	"Chattonella",
+	"Cochlodium",
+	"Gyrodinium",
+	"Lingulodinium polyedra",
+	"Prorocentrum micans",
+	"Pseudo-nitzschia chain"
+	]);
 
         // filter images by current class
-        if (props.currClass !== "All") {
+        if (props.currClass === "All") {
+            updateImgs(props.images);
+	} else if (props.currClass === "HAB") {
+            updateImgs(props.images.filter((x) => trainLabels.has(x.label)));
+	} else if (props.currClass === "Other") {
+            updateImgs(props.images.filter((x) => !trainLabels.has(x.label)));
+        } else {
             updateImgs(props.images.filter((img) => {
                 if (img.label != null && img.label === props.currClass) return true;
                 else return false;
             }));
-        } else {
-            updateImgs(props.images);
         }
     }, [props.currClass]);
 

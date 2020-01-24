@@ -46,7 +46,8 @@ const App = () => {
 
   // Merge two arrays into one, discarding duplicates
   const mergeArrays = (arr1, arr2) => {
-    return ['All', ...new Set(arr1.concat(arr2).map(img => img.label))]
+    return ['All', 'HAB', 'Other', 
+      ...new Set(arr1.concat(arr2).map(img => img.label))]
       .filter((x) => x != null);
   }
 
@@ -62,8 +63,7 @@ const App = () => {
 
   // update current class
   const onClassChange = (e) => {
-    let selectedClass = e.target.value;
-    console.log("New class selected: " + selectedClass);
+    const selectedClass = e.target.value;
     setCurrClass(selectedClass);
   }
 
