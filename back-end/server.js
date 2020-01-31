@@ -146,7 +146,6 @@ app.post('/api/annot-list/:newClass', (req, res) => {
 
 // get training data from CSV
 app.get('/api/train-data/', (req, res) => {
-    console.log("train-data api called");
     if (trainPath) {
         // read csv for training dataset info
         utils.readCsvFile(trainPath, (data) => {
@@ -176,7 +175,6 @@ app.get('/api/test-data/', (req, res) => {
 if (argv.train || argv.test) {
     if (argv.train) {
         console.log("Training data CSV: " + argv.train);
-	log("Training data CSV: " + argv.train);
     }
     if (argv.test) {
         console.log("Testing data CSV: " + argv.test);
