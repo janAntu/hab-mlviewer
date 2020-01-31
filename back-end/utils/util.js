@@ -15,7 +15,7 @@ var readCsv = (path, cb) => {
     if (err) {
       console.log(err);
     } else {
-      cb(papa.parse(data, {header: true}));
+      cb(papa.parse(data, {header: true, skipEmptyLines: true}));
     }
   });
 }
