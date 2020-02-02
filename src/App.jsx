@@ -19,8 +19,12 @@ const App = () => {
   const [testImgs, setTestImages] = useState([]);
   const [trainImgs, setTrainImages] = useState([]);
   const [currClass, setCurrClass] = useState('Hab');
-  const [currAnnotClass, setCurrAnnotClass] = useState('');
   const [classList, setClassList] = useState([]);
+
+  // States for the four query radio buttons
+  const [trainFields, setTrainFields] = useState([]);
+  const [testFields, setTestFields] = useState(['labels', 'ml_predictions']);
+  const [imageFilter, setImageFilter] = useState({train: 'all', test: 'all'});
 
   useEffect(() => {
     Promise.all([
@@ -38,6 +42,9 @@ const App = () => {
         setClassList(mergeArrays(trainRes.data.data, testRes.data.data));
         setCurrClass('All');
         console.log(classList);
+
+        setTrainFields(trainRes.data.data[0]);
+        setTestFields(testRes.data.data[0]);
       })
       .catch(err => {
         alert(`Error Occured: ${err}`);
@@ -49,6 +56,10 @@ const App = () => {
     return ['All', 'HAB', 'Other', 
       ...new Set(arr1.concat(arr2).map(img => img.label))]
       .filter((x) => x != null);
+  }
+
+  const getFields = (imgObject) => {
+    return ["label", "ml_prediction"].filter((x) => x in imgObject);
   }
 
   // get images from server on query
@@ -80,6 +91,9 @@ const App = () => {
           classList={classList}
           onClassChange={onClassChange} 
           currClass={currClass}
+          trainFields={trainFields}
+          testFields={testFields}
+          setImageFilter={setImageFilter}
           handleSubmit={handleSubmit} />
       <hr />
 
