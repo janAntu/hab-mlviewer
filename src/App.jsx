@@ -27,17 +27,14 @@ const App = () => {
       axios.get(`http://gpu2:3005/api/train-data/`),
       axios.get(`http://gpu2:3005/api/test-data/`)])
       .then(([trainRes, testRes]) => {
-        console.log("trainRes: " + trainRes.data.data)
         if(trainRes.data.data === [] || testRes.data.data === []){
           alert("No images received! \n Check the querys entered");
         }
         setTrainImages(trainRes.data.data);
         setTestImages(testRes.data.data);
 
-        console.log("Preparing to merge arrays");
         setClassList(mergeArrays(trainRes.data.data, testRes.data.data));
         setCurrClass('All');
-        console.log(classList);
       })
       .catch(err => {
         alert(`Error Occured: ${err}`);

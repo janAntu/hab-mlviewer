@@ -82,7 +82,6 @@ app.get('/api/imgs/:date', (req, res) => {
           console.log(err.message);
           return;
         }
-        console.log(rows);
         res.json({
             "message":"success",
             "data":rows
@@ -153,7 +152,7 @@ app.get('/api/train-data/', (req, res) => {
             log(data);
         });
     } else {
-        log("Error: No training data file specified");
+        console.log("Error: No training data file specified");
     }
 });
 
@@ -166,7 +165,7 @@ app.get('/api/test-data/', (req, res) => {
             log(data);
         });
     } else {
-        log("Error: No testing data file specified");
+        console.log("Error: No testing data file specified");
     }
 });
 
