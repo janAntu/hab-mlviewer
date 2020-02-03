@@ -29,7 +29,6 @@ const Image = (props) => {
                 !didCancel &&
                 (entry.intersectionRatio > 0 || entry.isIntersecting)
               ) {
-		console.log("Set image: " + src)
                 setImageSrc(src)
               }
             })

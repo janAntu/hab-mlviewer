@@ -120,7 +120,6 @@ app.get('/api/annot-list/', (req, res) => {
     // read json for current classList
     utils.readJsonFile(classListPath, (data) => {
         res.json(data);
-        console.log(data);
     });
 });
 
@@ -149,7 +148,6 @@ app.get('/api/train-data/', (req, res) => {
         // read csv for training dataset info
         utils.readCsvFile(trainPath, (data) => {
             res.json(data);
-            log(data);
         });
     } else {
         console.log("Error: No training data file specified");
@@ -162,7 +160,6 @@ app.get('/api/test-data/', (req, res) => {
         // read csv for training dataset info
         utils.readCsvFile(testPath, (data) => {
             res.json(data);
-            log(data);
         });
     } else {
         console.log("Error: No testing data file specified");

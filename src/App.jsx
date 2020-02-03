@@ -19,8 +19,8 @@ const App = () => {
   const [testImgs, setTestImages] = useState([]);
   const [trainImgs, setTrainImages] = useState([]);
   const [currClass, setCurrClass] = useState('Hab');
-  const [currAnnotClass, setCurrAnnotClass] = useState('');
   const [classList, setClassList] = useState([]);
+  const [showPredictions, setShowPredictions] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -69,6 +69,7 @@ const App = () => {
     setCurrClass(currClass);
     setTrainImages(trainImgs);    
     setTestImages(testImgs);    
+    setShowPredictions(showPredictions);
   }
 
   return (
@@ -77,20 +78,25 @@ const App = () => {
           classList={classList}
           onClassChange={onClassChange} 
           currClass={currClass}
+          setShowPredictions={setShowPredictions}
           handleSubmit={handleSubmit} />
       <hr />
 
       <div className="Splitscreen">
         <Mosaic 
           title="Training:"
+          key="trainmosaic"
           images={trainImgs} 
           currClass={currClass}
+          showPredictions={showPredictions}
           reRender={reRender}
         />
         <Mosaic 
           title="Testing:"
+          key="testmosaic"
           images={testImgs} 
           currClass={currClass}
+          showPredictions={showPredictions}
           reRender={reRender}
         />
       </div>

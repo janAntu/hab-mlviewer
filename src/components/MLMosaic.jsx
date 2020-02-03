@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import Image from './MLImage';
-import axios from 'axios';
 
 /**
  * Component to deal with displaying images
@@ -36,16 +35,24 @@ const Mosaic = (props) => {
 	"Pseudo-nitzschia chain"
 	]);
 
+        const field = (img) => {
+            if (props.showPrediction && 'ml_prediction' in img) {
+                return img.ml_prediction;
+            } else {
+                return img.label;
+            }
+        }
+
         // filter images by current class
         if (props.currClass === "All") {
             updateImgs(props.images);
 	} else if (props.currClass === "HAB") {
-            updateImgs(props.images.filter((x) => trainLabels.has(x.label)));
+            updateImgs(props.images.filter((x) => trainLabels.has(field(x))));
 	} else if (props.currClass === "Other") {
-            updateImgs(props.images.filter((x) => !trainLabels.has(x.label)));
+            updateImgs(props.images.filter((x) => !trainLabels.has(field(x))));
         } else {
             updateImgs(props.images.filter((img) => {
-                if (img.label != null && img.label === props.currClass) return true;
+                if (field(img) != null && field(img) === props.currClass) return true;
                 else return false;
             }));
         }

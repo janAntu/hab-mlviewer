@@ -6,15 +6,29 @@ import React from 'react';
  */
 const Query = (props) => {
 
+    const classList = [...new Set(props.classList)];
+
+    const updateCheckbox = (e) => {
+        props.setShowPredictions(e.target.checked);
+    }
+
     return(
         <div className="Query">
             <form onSubmit={props.handleSubmit}>
+
             <label>
                 Filter by Class:
                 <select value={props.currClass} onChange={props.onClassChange}>
-                    {props.classList.map(classStr => <option key={classStr} value={classStr}>{classStr}</option>)}
+                    {classList.map(classStr => <option key={classStr} value={classStr}>{classStr}</option>)}
                 </select>
             </label>
+
+            <label>
+                Show ML Predictions:
+                <input type="checkbox"
+                       onChange={updateCheckbox}/>
+            </label>
+
                 <input type="submit" value="Submit" />
             </form>
         </div>
