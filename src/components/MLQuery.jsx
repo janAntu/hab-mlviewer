@@ -10,6 +10,7 @@ const Query = (props) => {
 
     const updateCheckbox = (e) => {
         props.setShowPredictions(e.target.checked);
+	props.reRender();
     }
 
     return(

@@ -66,6 +66,7 @@ const App = () => {
 
   // rerender the view
   const reRender = (trainImgs, testImgs) => {
+    console.log("reRender");
     setCurrClass(currClass);
     setTrainImages(trainImgs);    
     setTestImages(testImgs);    
@@ -79,13 +80,13 @@ const App = () => {
           onClassChange={onClassChange} 
           currClass={currClass}
           setShowPredictions={setShowPredictions}
-          handleSubmit={handleSubmit} />
+          handleSubmit={handleSubmit} 
+	  reRender={reRender} />
       <hr />
 
       <div className="Splitscreen">
         <Mosaic 
           title="Training:"
-          key="trainmosaic"
           images={trainImgs} 
           currClass={currClass}
           showPredictions={showPredictions}
@@ -93,7 +94,6 @@ const App = () => {
         />
         <Mosaic 
           title="Testing:"
-          key="testmosaic"
           images={testImgs} 
           currClass={currClass}
           showPredictions={showPredictions}

@@ -8,6 +8,8 @@ import Image from './MLImage';
  */
 const Mosaic = (props) => {
 
+	console.log("Rendering " + props.title + " for class " + props.currClass);
+
     // define state
     const [selectedImgs, addToImgs] = useState([]);
     const [imgsToRender, updateImgs] = useState([]);
@@ -56,13 +58,13 @@ const Mosaic = (props) => {
                 else return false;
             }));
         }
-    }, [props.currClass]);
+    }, [props.currClass, props.images, props.showPrediction]);
 
     return(
-        <div className="Mosaic">
+        <div className="Mosaic" key={"props.title + props.currClass"}>
             <label>{props.title}</label>        
             { imgsToRender.map((img) => {
-                    return <Image key={img.image_id} image={img} 
+                    return <Image key={img.images} image={img} 
                             onClick={selectImage}/>
                 })
             }
