@@ -43,9 +43,10 @@ const App = () => {
 
   // Merge two arrays into one, discarding duplicates
   const mergeArrays = (arr1, arr2) => {
-    return ['All', 'HAB', 'Other', 
-      ...new Set(arr1.concat(arr2).map(img => img.label))]
+    let labels = [...new Set(arr1.concat(arr2).map(img => img.label))]
       .filter((x) => x != null);
+    labels.sort();
+    return ['All', 'HAB', 'Other'].concat(labels);
   }
 
   // get images from server on query
