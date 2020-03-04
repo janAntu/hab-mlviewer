@@ -20,7 +20,8 @@ const App = () => {
   const [trainImgs, setTrainImages] = useState([]);
   const [currClass, setCurrClass] = useState('Hab');
   const [classList, setClassList] = useState([]);
-  const [showPredictions, setShowPredictions] = useState(false);
+  const [trainPredictions, setTrainPredictions] = useState(false);
+  const [testPredictions, setTestPredictions] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -46,7 +47,7 @@ const App = () => {
     let labels = [...new Set(arr1.concat(arr2).map(img => img.label))]
       .filter((x) => x != null);
     labels.sort();
-    return ['All', 'HAB', 'Other'].concat(labels);
+    return ['All'].concat(labels);
   }
 
   // get images from server on query
@@ -71,7 +72,6 @@ const App = () => {
     setCurrClass(currClass);
     setTrainImages(trainImgs);    
     setTestImages(testImgs);    
-    setShowPredictions(showPredictions);
   }
 
   return (
@@ -80,9 +80,10 @@ const App = () => {
           classList={classList}
           onClassChange={onClassChange} 
           currClass={currClass}
-          setShowPredictions={setShowPredictions}
+          setTrainPredictions={setTrainPredictions}
+          setTestPredictions={setTestPredictions}
           handleSubmit={handleSubmit} 
-	  reRender={reRender} />
+          reRender={reRender} />
       <hr />
 
       <div className="Splitscreen">
@@ -90,14 +91,14 @@ const App = () => {
           title="Training:"
           images={trainImgs} 
           currClass={currClass}
-          showPredictions={showPredictions}
+          showPredictions={trainPredictions}
           reRender={reRender}
         />
         <Mosaic 
           title="Testing:"
           images={testImgs} 
           currClass={currClass}
-          showPredictions={showPredictions}
+          showPredictions={testPredictions}
           reRender={reRender}
         />
       </div>

@@ -6,11 +6,27 @@ import React from 'react';
  */
 const Query = (props) => {
 
-    const classList = [...new Set(props.classList)];
+    const [onlyHab, setOnlyHab] = useState(false);
+
+    const classList = props.classList + (onlyHab ? ['Other'] : []);
+    const habLabels = new Set([
+        "Akashiwo",
+        "Ceratium falcatiforme",
+        "Ceratium furca",
+        "Chattonella",
+        "Cochlodium",
+        "Gyrodinium",
+        "Lingulodinium polyedra",
+        "Prorocentrum micans",
+        "Pseudo-nitzschia chain"
+	]);
 
     const updateCheckbox = (e) => {
         props.setShowPredictions(e.target.checked);
-	props.reRender();
+    }
+
+    const updateHab = (e) => {
+        setOnlyHab(e.target.checked);
     }
 
     return(
@@ -20,14 +36,28 @@ const Query = (props) => {
             <label>
                 Filter by Class:
                 <select value={props.currClass} onChange={props.onClassChange}>
-                    {classList.map(classStr => <option key={classStr} value={classStr}>{classStr}</option>)}
+                    {classList.filter((x) => !onlyHab || habLabels.has(x)).map(classStr => 
+                        <option key={classStr} value={classStr}>{classStr}</option>
+                    )}
                 </select>
             </label>
 
             <label>
-                Show ML Predictions:
+                Show Train Predictions:
                 <input type="checkbox"
-                       onChange={updateCheckbox}/>
+                    onChange={updateCheckbox}/>
+            </label>
+
+            <label>
+                Show Test Predictions:
+                <input type="checkbox"
+                    onChange={updateCheckbox}/>
+            </label>
+
+            <label>
+                Show only HAB classes:
+                <input type="checkbox"
+                    onChange={updateCheckbox}/>
             </label>
 
                 <input type="submit" value="Submit" />

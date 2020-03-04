@@ -26,15 +26,15 @@ const Mosaic = (props) => {
 
     useEffect(() => {
 	const trainLabels = new Set([
-	"Akashiwo",
-	"Ceratium falcatiforme",
-	"Ceratium furca",
-	"Chattonella",
-	"Cochlodium",
-	"Gyrodinium",
-	"Lingulodinium polyedra",
-	"Prorocentrum micans",
-	"Pseudo-nitzschia chain"
+        "Akashiwo",
+        "Ceratium falcatiforme",
+        "Ceratium furca",
+        "Chattonella",
+        "Cochlodium",
+        "Gyrodinium",
+        "Lingulodinium polyedra",
+        "Prorocentrum micans",
+        "Pseudo-nitzschia chain"
 	]);
 
         const field = (img) => {
@@ -46,10 +46,10 @@ const Mosaic = (props) => {
         }
 
         // filter images by current class
-        if (props.currClass === "All") {
-            updateImgs(props.images);
-	} else if (props.currClass === "HAB") {
+        if (props.onlyHab || props.currClass === "HAB") {
             updateImgs(props.images.filter((x) => trainLabels.has(field(x))));
+	} else if (props.currClass === "All") {
+            updateImgs(props.images);
 	} else if (props.currClass === "Other") {
             updateImgs(props.images.filter((x) => !trainLabels.has(field(x))));
         } else {
