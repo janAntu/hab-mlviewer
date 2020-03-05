@@ -8,6 +8,18 @@ const Query = (props) => {
 
     const [onlyHab, setOnlyHab] = useState(false);
 
+    const showTrain = (props.trainImg && 
+        'ml_prediction' in props.trainImg[0] && 'label' in props.trainImg[0]);
+    const showTest = (props.testImg && 
+        'ml_prediction' in props.testImg[0] && 'label' in props.testImg[0]);
+
+    if (props.trainImg && !('label' in props.trainImg[0])) {
+        props.setTrainPredictions(true)
+    }
+    if (props.testImg && !('label' in props.testImg[0])) {
+        props.setTestPredictions(true)
+    }
+
     const classList = props.classList + (onlyHab ? ['Other'] : []);
     const habLabels = new Set([
         "Akashiwo",
@@ -21,8 +33,12 @@ const Query = (props) => {
         "Pseudo-nitzschia chain"
 	]);
 
-    const updateCheckbox = (e) => {
-        props.setShowPredictions(e.target.checked);
+    const updateTrain = (e) => {
+        props.setTrainPredictions(e.target.checked);
+    }
+
+    const updateTest = (e) => {
+        props.setTestPredictions(e.target.checked);
     }
 
     const updateHab = (e) => {
@@ -45,13 +61,13 @@ const Query = (props) => {
             <label>
                 Show Train Predictions:
                 <input type="checkbox"
-                    onChange={updateCheckbox}/>
+                    onChange={updateTrain}/>
             </label>
 
             <label>
                 Show Test Predictions:
                 <input type="checkbox"
-                    onChange={updateCheckbox}/>
+                    onChange={updateTest}/>
             </label>
 
             <label>
