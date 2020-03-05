@@ -46,7 +46,7 @@ const Mosaic = (props) => {
         }
 
         // filter images by current class
-        if (props.onlyHab || props.currClass === "HAB") {
+        if (props.currClass === "HAB") {
             updateImgs(props.images.filter((x) => trainLabels.has(field(x))));
 	} else if (props.currClass === "All") {
             updateImgs(props.images);
